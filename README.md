@@ -36,3 +36,7 @@ Chapter 05 is taught through scripts and the course website; its blank exercise 
 ## Save progress
 
 In Colab, choose **File → Save a copy in GitHub**, select `GyDeen/PyTorch-DeepLearning`, branch `main`, and the same notebook path. Enter a commit message describing your progress. GitHub saves are manual; reopen your notebook from this repository to resume the committed version.
+
+## Guided local practice
+
+Lesson notebooks 01–09 now include a practice outline and a concrete task plus an inspection checkpoint above every code cell. Your code cells stay yours to implement. See [the learning guide](LEARNING_GUIDE.md) for the lesson order and local VS Code/Jupyter workflow. Shared helper modules are included for the later lessons.
