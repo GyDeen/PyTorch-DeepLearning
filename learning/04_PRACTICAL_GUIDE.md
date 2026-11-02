@@ -4,7 +4,7 @@
 **Prerequisite:** understand Dataset/DataLoader, image axes, a CNN forward pass, and a minibatch loop from Chapter 03. This chapter teaches interfaces and preprocessing; the same Dataset pattern can later serve non-image features in your AI project.
 
 ## Files, PIL, and transforms (Tasks 1–19)
-A `Path` is a filename/directory object. `path.glob('pattern')` iterates over matching paths; `list(...)` collects them. `path.name` gives a filename; `path.parent.name` can identify a class folder. Use `Image.open(path).convert('RGB')` from PIL to read a consistent three-channel image.
+Use `Image.open(path).convert('RGB')` from PIL to read a consistent three-channel image.
 
 `transforms.Compose([transform_a,transform_b,...])` calls transforms in sequence. Constructors build callable objects; applying the pipeline to an image executes it.
 
@@ -22,7 +22,7 @@ resize_and_tensor = transforms.Compose([
 `datasets.ImageFolder(root,transform=...)` expects one subfolder per class. It discovers sorted classes, assigns integer labels, and returns a transformed image/label pair. `class_to_idx` is a mapping, not a model prediction.
 
 ## Implement the Dataset interface (Tasks 20–36)
-Subclassing Dataset is Python inheritance, like nn.Module, but a Dataset is not itself a neural network. Store file paths and transforms in `__init__`. Implement these methods at the same indentation level:
+Dataset defines the sample-retrieval interface that DataLoader consumes; it does not register trainable model parameters. Store file paths and transforms in `__init__`. Implement these methods at the same indentation level:
 
 ```python
 from torch.utils.data import Dataset
@@ -38,7 +38,7 @@ class FeaturePairs(Dataset):
 
 In your **image** implementation, store image paths rather than all decoded images. `__getitem__(index)` opens that file, finds its parent-folder class, applies `self.transform` when provided, and returns `(image_tensor,label_int)`. DataLoader calls these methods for you when making batches.
 
-A regular function such as `find_classes(directory)` receives its directory as an argument and returns a list/dictionary. Class methods instead receive `self` automatically. Do not access an unrelated global directory from a supposedly reusable scanner.
+Keep class discovery separate from image transformation. Your dataset's class-to-index mapping must agree with its labels and class_names list.
 
 ## Train functions and result dictionaries (Tasks 37–58)
 The model is still a TinyVGG-style classifier; the input now has three channels and a different size. Recalculate the final flatten size. `torchinfo.summary(model,input_size=...,device=...)` performs a forward-based summary using a generated input. Its `input_size` includes batch size; it is not the model constructor's `input_shape` channel argument.

@@ -1,7 +1,7 @@
 
 # Practical guide: classification APIs
 
-**Prerequisite:** complete Chapter 01 through saving/reloading a trained model. You should be able to explain `self`, `forward`, loss, backward, optimizer step, and inference mode. If any is unfamiliar, revisit the corresponding Learn first cell there. This chapter changes the data and objective; it keeps that training workflow.
+**Prerequisite:** complete Chapter 01 through saving/reloading a trained model. You should be able to explain Module parameter registration, forward, loss, backward, optimizer step, and inference mode. If any is unfamiliar, revisit the corresponding Learn first cell there. This chapter changes the data and objective; it keeps that training workflow.
 
 ## Data tools: sklearn and pandas (Tasks 1–10)
 `sklearn` provides dataset generation/splitting functions. They return data; they do not train a PyTorch model for you.

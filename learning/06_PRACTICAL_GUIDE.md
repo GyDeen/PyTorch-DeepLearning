@@ -30,6 +30,6 @@ Inspect the existing head before choosing its replacement width. Move a newly as
 Start with a single forward batch to understand shape, then perform the specified training run. Predict with eval/inference mode, using exactly the paired pretrained transforms. The objective still consumes raw logits and int64 labels.
 
 ## Custom-image prediction (Tasks 19–21)
-A prediction helper is an ordinary function. It accepts a model and a file path; it must open RGB input, transform, batch, place on device, call the model, and interpret output. `transform=None` means the caller can omit that optional argument, not that the model accepts raw images. Set a meaningful default pipeline or explicitly pass the selected weight transforms.
+The prediction helper must open RGB input, transform, batch, place on device, call the model, and interpret output. `transform=None` means the caller can omit that optional argument, not that the model accepts raw images. Set a meaningful default pipeline or explicitly pass the selected weight transforms.
 
 Reference: [torchvision pretrained models](https://docs.pytorch.org/vision/stable/models.html).

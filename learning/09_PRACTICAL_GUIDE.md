@@ -3,8 +3,8 @@
 
 **Prerequisite:** train and reload a model, preprocess one input correctly, and interpret its output. This entire chapter is an optional application/deployment extension. It is not required for using a trained model inside your AI project.
 
-## Reusable model factories (Tasks 1–29)
-A function returning `(model, transforms)` is an ordinary Python function returning a tuple. Unpack both with `model, preprocess = factory(...)`. Returning preprocessing alongside the model reduces accidental mismatch.
+## Pretrained-model and preprocessing contracts (Tasks 1–29)
+The model constructors in this lesson return a model and its weight-specific preprocessing. Keep those paired: input scaling, resizing, and normalization are part of the inference contract.
 
 Measure three different things: metric quality on held-out examples, parameter count (`sum(p.numel() for p in model.parameters())`), and serialized file size (`Path(...).stat().st_size`). None is a substitute for the others. Use the same metric units across models.
 
@@ -13,29 +13,25 @@ A list of dictionaries is a convenient format for detailed results. Each row sho
 
 A timing interval covers only the calls between your start/end readings. Put the same stages inside the interval for both models and use the same device. CPU inference simplifies this exercise. Confidence is the selected model probability, not a guarantee that a prediction is correct.
 
-## A callback is just a function (Tasks 47–52)
-A web interface does not train your model. It receives an image, calls a Python prediction function, and displays its returned values.
-
-Here is an unrelated miniature Gradio example:
+## Gradio input/output components (Tasks 47–52)
+Gradio binds the existing predict function to input/output components. It does not train or automatically preprocess for the model.
 
 ```python
 import gradio as gr
-
-def describe_text(text):
-    return f"You entered {len(text)} characters"
-
-example_app = gr.Interface(fn=describe_text, inputs="text", outputs="text")
-# example_app.launch(share=False)
+# predict must already accept a PIL image and return (probability_dict, seconds).
+# demo = gr.Interface(fn=predict, inputs=gr.Image(type="pil"),
+#                     outputs=[gr.Label(), gr.Number()])
+# demo.launch(share=False)
 ```
 
-`fn` is a **function object**. Pass `predict`, not `predict(...)`: the app will call it later when a user submits input. For your image task, `gr.Image(type='pil')` provides a PIL image; `gr.Label()` can display a dictionary from class names to probabilities; `gr.Number()` displays elapsed time. A function returning two values needs two output components in the same order. Launch locally with share=False.
+`gr.Image(type='pil')` specifies the type passed to predict. Label displays a dictionary mapping class names to probabilities; Number displays a scalar. The order and count of returned values must match outputs. Pass the callable as fn, and use share=False for a local app.
 
-Inside predict, use the trained CPU model in eval/inference mode, the matching transforms, and one batch dimension. Do not recreate/randomly initialize the model on every image submission.
+Inside predict, use CPU model evaluation/inference mode, the matching transforms, and one batch dimension. Do not recreate/randomly initialize the model for each image.
 
 ## Package files without notebook state (Tasks 53–62)
 A standalone app needs Python source defining its model architecture, a saved checkpoint, preprocessing code, and the class-name mapping. It cannot use a class merely because that class exists in a separate notebook kernel.
 
-`model.py` defines a reusable factory. `app.py` imports it, loads weights, defines the callback, and launches an interface. The guard `if __name__ == '__main__':` runs launch code only when the file is executed as the main script, not when imported by another module.
+`model.py` defines a reusable factory. `app.py` imports it, loads weights, defines the callback, and launches an interface. Keep launching separate from model construction so importing the model does not launch the app.
 
 `%%writefile path/to/file.py` at the first line of a notebook cell writes the rest of the cell into a file **instead of executing that body**. Repeating it overwrites that file. Alternatively create files in your editor. `shutil.copy2(source,destination)` copies a file; it does not remove the source.
 

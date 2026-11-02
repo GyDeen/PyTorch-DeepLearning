@@ -42,7 +42,7 @@ attended, attention_weights = attention(example_tokens, example_tokens, example_
 For **self** attention, query/key/value come from the same sequence. `output, _ = ...` discards an unused second return. A residual connection adds a block's output to its input, so their shapes must match.
 
 ## Compose and train (Tasks 45–50)
-Store blocks in __init__, not forward. `nn.Sequential(*blocks)` expands a Python list into positional constructor arguments; a ModuleList registers layers but does not automatically call them. Use one convention and implement the matching forward loop.
+Store blocks in __init__, not forward. Sequential registers and automatically executes its child modules in order; ModuleList registers its children but requires an explicit forward loop. An ordinary Python list would not register those layers for parameter discovery/device movement.
 
 The class-token output is selected with `sequence[:,0]`, preserving batch and embedding axes. A final Linear maps that embedding to class logits. The existing cross-entropy training loop then works unchanged.
 

@@ -1,6 +1,6 @@
 # Practical learning route
 
-Begin with [Start here](learning/START_HERE.md), written for someone who knows ML theory but is new to the tools. Learn first sections contain method arguments, small worked examples, and implementation scaffolds before the practice tasks. Complete Chapters 00–02 before deciding which optional later chapters serve your own project.
+Begin with [Start here](learning/START_HERE.md), written for someone who knows Python and ML theory but is new to these libraries. Learn first sections introduce package behavior, arguments, shape/dtype contracts, and small examples before practice. They assume Python knowledge. Complete Chapters 00–02 before deciding which optional later chapters serve your own project.
 
 # Working through the PyTorch lessons
 

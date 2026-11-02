@@ -3,10 +3,8 @@
 
 **Prerequisite:** finish one training/evaluation run and understand its metric history dictionary. Logging is a way to record those same numbers; it is not another optimizer or training algorithm.
 
-## Seeds, helper functions, and arguments (Tasks 1–11)
-`set_seeds(seed=42)` is a normal Python function: the default is used when the caller omits seed. Use `torch.manual_seed(seed)` inside it. A return value is unnecessary for an action that changes generator state. Seeds do not guarantee identical results across all hardware/software configurations.
-
-`download_data(source,destination,remove_source=True)` is another utility. `source` is a URL string; `destination` is a folder name; its return is a Path. Use that returned path when constructing training/test directories. A flag such as remove_source should control only deletion of the downloaded archive, not deletion of the user's extracted dataset.
+## PyTorch seeds and course-helper contracts (Tasks 1–11)
+`torch.manual_seed(seed)` seeds PyTorch's device generators. The course helper set_seeds wraps this operation; it does not seed sklearn or NumPy. The helper download_data(source,destination,remove_source=True) returns the extracted dataset directory as a Path. Use that returned directory for your loaders. Seeds alone do not guarantee identical results across hardware/software configurations.
 
 The model/data preparation is the Chapter 06 workflow: weight-specific transforms, frozen backbone, fresh classifier, matching loss and optimizer.
 
@@ -23,7 +21,7 @@ example_writer.close()
 
 `add_scalar(tag,value,global_step)` logs one number; tag groups related points, value is a Python number, global_step is usually epoch/update index. `add_scalars(main_tag,tag_scalar_dict,global_step)` groups several series under one chart. Call `close()` to flush and finish the writer. Do not close a writer before the loop that needs it.
 
-A function that uses `writer` without accepting it reads a global name. Passing `writer` as an explicit argument is easier to reuse across experiments. This is ordinary Python parameter passing, not a special PyTorch convention.
+Each training run should receive its own writer. Logging into a shared writer would mix runs even when the models are different.
 
 `%load_ext tensorboard` and `%tensorboard --logdir runs` are notebook commands; the `%` syntax belongs to IPython. A shell equivalent is `python -m tensorboard.main --logdir runs` in your activated environment.
 
