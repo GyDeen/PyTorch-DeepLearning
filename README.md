@@ -40,3 +40,7 @@ In Colab, choose **File → Save a copy in GitHub**, select `GyDeen/PyTorch-Deep
 ## Guided local practice
 
 Lesson notebooks 01–09 now include a practice outline and a concrete task plus an inspection checkpoint above every code cell. Your code cells stay yours to implement. See [the learning guide](LEARNING_GUIDE.md) for the lesson order and local VS Code/Jupyter workflow. Shared helper modules are included for the later lessons.
+
+## New to the practical tools?
+
+Start with [the theory-to-practice learning path](learning/START_HERE.md). Chapter 01 now teaches matplotlib, Python classes, `self`, `nn.Module`, parameters, one update, training loops, and saving/loading before asking you to implement them. Later lessons introduce their new tools in inline Learn first sections and chapter tool guides. Chapters 00–02 are the core path; vision/transformers/deployment are optional extensions.

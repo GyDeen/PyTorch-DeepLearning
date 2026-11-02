@@ -1,3 +1,7 @@
+# Practical learning route
+
+Begin with [Start here](learning/START_HERE.md), written for someone who knows ML theory but is new to the tools. Learn first sections contain method arguments, small worked examples, and implementation scaffolds before the practice tasks. Complete Chapters 00–02 before deciding which optional later chapters serve your own project.
+
 # Working through the PyTorch lessons
 
 Open this repository folder in VS Code or launch JupyterLab from this folder. Select the project `.venv` / **Python (PyTorch Learning)** kernel.
