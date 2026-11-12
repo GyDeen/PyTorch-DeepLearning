@@ -13,7 +13,10 @@ from typing import List, Tuple
 from PIL import Image
 
 # Set device
-device = "cuda" if torch.cuda.is_available() else "cpu"
+device = "cpu"
+
+if torch.cuda.is_available(): device = "cuda"
+elif torch.mps.is_available(): device = "mps"
 
 # Predict on a target image with a target model
 # Function created in: https://www.learnpytorch.io/06_pytorch_transfer_learning/#6-make-predictions-on-images-from-the-test-set
